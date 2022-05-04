@@ -1,0 +1,17 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.14.0",
+    "libraryName": "employee-badge",
+    "libraryId": "41b8c179-a776-4b5e-b8ec-71231d885553",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "employee-badge",
+    "solutionShortDescription": "employee-badge description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "adaptiveCardExtension",
+    "aceTemplateType": "Image"
+  }
+}

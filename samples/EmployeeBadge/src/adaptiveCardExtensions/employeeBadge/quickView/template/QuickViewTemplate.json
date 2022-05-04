@@ -1,0 +1,104 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "${user.displayName}",
+      "wrap": true,
+      "style": "heading"
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "TextBlock",
+              "weight": "Bolder",
+              "text": "${user.jobTitle}",
+              "isSubtle": true,
+              "wrap": false
+            },
+            {
+              "type": "TextBlock",
+              "weight": "bolder",
+              "separator": true,
+              "text": "${user.userPrincipalName}",
+              "wrap": true
+            },    
+            {
+              "type": "TextBlock",
+              "weight": "default",
+              "text": "Language: ${user.preferredLanguage}",
+              "wrap": true
+            },            
+            {
+              "type": "TextBlock",
+              "weight": "default",
+              "text": "Location: ${user.officeLocation}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "weight": "default",
+              "text": "Mobile: ${user.mobilePhone}",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "weight": "default",
+              "text": "Phone: ${user.businessPhones}",
+              "isSubtle": true,
+              "wrap": true
+            },            
+            {
+              "type": "TextBlock",
+              "weight": "lighter",
+              "text": "Employee ID: ${user.id}",
+              "isSubtle": true,
+              "wrap": true
+            },            
+            {
+              "type": "TextBlock",
+              "weight": "lighter",
+              "text": "Notes: -",
+              "isSubtle": true,
+              "wrap": true
+            }
+          ],
+          "width": "stretch"
+        },
+        {
+          "type": "Column",
+          "items": [
+            {
+              "type": "Image",
+              "url": "/_layouts/15/userphoto.aspx?size=L&username=${user.userPrincipalName}",
+              "size": "Medium"
+            },
+            {
+                "type": "Image",
+                "url": "<use-a-picture-path-url-here>/barcode.png",
+                "size": "Medium",
+                "spacing": "Medium"
+            }            
+          ],
+          "width": "auto"
+        }
+      ]
+    }
+    
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "My account",
+      "url": "https://myaccount.microsoft.com/?ref=MeControl"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.3"
+}

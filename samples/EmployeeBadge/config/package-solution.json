@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "employee-badge-client-side-solution",
+    "id": "41b8c179-a776-4b5e-b8ec-71231d885553",
+    "version": "1.0.0.5",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Toni Pohl",
+      "websiteUrl": "https://www.atwork.at",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "employee-badge description"
+      },
+      "longDescription": {
+        "default": "employee-badge description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "employee-badge Feature",
+        "description": "The feature that activates elements of the employee-badge solution.",
+        "id": "a82e040f-0f90-4e9f-bbb6-efaaff17bf8f",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/employee-badge.sppkg"
+  }
+}
