@@ -13,6 +13,7 @@ To configure your own M365 tenant for Viva Connections, follow the guide provide
 Find the requirements to develop a SPFx app here:
 
 - Set up your SharePoint Framework development environment: https://docs.microsoft.com/en-us/sharepoint/dev/spfx/set-up-your-development-environment
+- Install development tools for extending Viva Connections: https://docs.microsoft.com/en-us/learn/modules/viva-connections-extend-with-adaptive-card-extensions/2-exercise-install-development-tools-for-extending-viva-connections
 
 ## Design guidelines
 
@@ -24,6 +25,40 @@ To see how a Viva Connections app should be designed, check out the following re
 - https://docs.microsoft.com/en-us/sharepoint/dev/spfx/viva/overview-viva-connections 
 - https://docs.microsoft.com/en-us/learn/modules/viva-connections-get-started/4-understand-viva-connections-extensibility-capabilities
 - https://adaptivecards.io
+
+## Create a new app
+
+When all tools are installed, create a new SPFx app with YeoMan generator, and select ACE and one of the three available card types.
+
+```powershell
+yo @microsoft/sharepoint
+```
+
+Sample:
+See https://aka.ms/spfx-yeoman-info for more information on how to use this generator.
+Let's create a new SharePoint solution.
+? What is your solution name? submit-form
+? Which type of client-side component to create? Adaptive Card Extension
+? Which template do you want to use? Primary Text Template
+Add new Adaptive Card Extension to solution submit-form.
+? What is your Adaptive Card Extension name? SubmitForm
+
+## Run an app
+
+Run npm install, and gulp serve --nobrowser to try it out.
+Open your localhost, or a SharePoint Online site to run in context, e.g.:
+https://<your-tenantname>.sharepoint.com/sites/Home/_layouts/15/workbench.aspx  
+
+## Work with action handlers
+
+- Action Handlers in Adaptive Card Extension with SPFx: https://nanddeepnachanblogs.com/posts/2021-10-06-action-handlers-in-ace-with-spfx/
+
+## Consume APIs
+
+Check out the good documentation here:
+
+- Consume the Microsoft Graph in the SharePoint Framework: https://docs.microsoft.com/en-us/sharepoint/dev/spfx/use-aad-tutorial
+- To quickly send data to an endpoint, you can use the built-in Fetch method in React as well: https://jasonwatmore.com/post/2020/02/01/react-fetch-http-post-request-examples
 
 ## Learn
 
