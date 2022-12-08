@@ -1,0 +1,227 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "checkIfAlreadySelected": {
+                "actions": {
+                    "foreach": {
+                        "actions": {
+                            "Append_to_lunchItems": {
+                                "inputs": {
+                                    "name": "lunchItems",
+                                    "value": {
+                                        "description": "@{items('foreach')?['Description']}",
+                                        "imageUrl": "@{items('foreach')?['ImageUrl']}",
+                                        "title": "@{items('foreach')?['Title']}"
+                                    }
+                                },
+                                "runAfter": {},
+                                "type": "AppendToArrayVariable"
+                            }
+                        },
+                        "foreach": "@body('getLunchItems')?['value']",
+                        "runAfter": {
+                            "getLunchItems": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Foreach"
+                    },
+                    "getLunchItems": {
+                        "inputs": {
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                                }
+                            },
+                            "method": "get",
+                            "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://<!-- YOUR SPO SITE -->.sharepoint.com/sites/Home'))}/tables/@{encodeURIComponent(encodeURIComponent('8c6a8c34-1a08-4c58-b78e-7c276bcd2151'))}/items",
+                            "queries": {
+                                "$filter": "Weekday eq '@{parameters('Weekday')}'"
+                            }
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
+                    },
+                    "returnLunchItems": {
+                        "inputs": {
+                            "body": {
+                                "menu": "@variables('lunchItems')",
+                                "weekday": "@{parameters('Weekday')}"
+                            },
+                            "statusCode": 200
+                        },
+                        "kind": "Http",
+                        "runAfter": {
+                            "foreach": [
+                                "Succeeded"
+                            ]
+                        },
+                        "type": "Response"
+                    }
+                },
+                "else": {
+                    "actions": {
+                        "For_each": {
+                            "actions": {
+                                "Append_to_array_variable": {
+                                    "inputs": {
+                                        "name": "lunchItems",
+                                        "value": {
+                                            "comment": "@{items('For_each')?['Comment']}",
+                                            "selectedMenu": "@{items('For_each')?['selectedMenu']}"
+                                        }
+                                    },
+                                    "runAfter": {},
+                                    "type": "AppendToArrayVariable"
+                                }
+                            },
+                            "foreach": "@body('getLunchSelection')?['value']",
+                            "runAfter": {},
+                            "type": "Foreach"
+                        },
+                        "Response": {
+                            "inputs": {
+                                "body": {
+                                    "menu": "@variables('lunchItems')",
+                                    "weekday": "@{parameters('Weekday')}"
+                                },
+                                "statusCode": 200
+                            },
+                            "kind": "Http",
+                            "runAfter": {
+                                "For_each": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response"
+                        }
+                    }
+                },
+                "expression": {
+                    "and": [
+                        {
+                            "equals": [
+                                "@length(body('getLunchSelection')?['value'])",
+                                0
+                            ]
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "getLunchSelection": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "If"
+            },
+            "getLunchSelection": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://<!-- YOUR SPO SITE -->.sharepoint.com/sites/Home'))}/tables/@{encodeURIComponent(encodeURIComponent('49edc3bd-19d4-44c6-b2e1-fb98ed304a8b'))}/items",
+                    "queries": {
+                        "$filter": "Title eq '@{variables('user')}' and Weekday eq '@{parameters('Weekday')}'"
+                    }
+                },
+                "runAfter": {
+                    "initLunchSelection": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "initLunchItems": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "lunchItems",
+                            "type": "array"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "initUser": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "initLunchSelection": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "lunchSelection",
+                            "type": "object"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "initLunchItems": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "initUser": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "user",
+                            "type": "string",
+                            "value": "@triggerBody()?['user']"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            },
+            "Weekday": {
+                "defaultValue": "Tuesday",
+                "type": "String"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "user": {
+                                "type": "string"
+                            },
+                            "weekday": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "sharepointonline": {
+                    "connectionId": "<!-- your sharepointonline connection-->",
+                    "connectionName": "sharepointonline",
+                    "id": "<!-- your sharepointonline connection-->"
+                }
+            }
+        }
+    }
+}

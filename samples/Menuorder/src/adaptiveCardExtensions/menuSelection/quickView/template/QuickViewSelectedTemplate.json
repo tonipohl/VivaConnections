@@ -1,0 +1,53 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${title}",
+            "size": "Large",
+            "weight": "Bolder",
+            "horizontalAlignment":"center",
+            "wrap": true,
+            "color": "accent"
+        },
+        {
+            "type": "TextBlock",
+            "text": "${description}",
+            "wrap": true,
+            "horizontalAlignment":"center",
+            "color":"good"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Your Order",
+            "weight": "Bolder",
+            "wrap": true,
+            "horizontalAlignment":"center",
+            "color":"accent"
+        },
+        {
+            "type": "TextBlock",
+            "text": "${selectedFood.selectedMenu}",
+            "wrap": true,
+            "horizontalAlignment":"center",
+            "color":"good"
+        }, 
+        {
+            "type": "TextBlock",
+            "text": "Comment",
+            "weight": "Bolder",
+            "wrap": true,
+            "horizontalAlignment":"center",
+            "color":"accent"
+        },
+        {
+            "type": "TextBlock",
+            "text": "${selectedFood.comment}",
+            "wrap": true,
+            "horizontalAlignment":"center",
+            "color":"good"
+        }
+    ]
+  }

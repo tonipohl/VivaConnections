@@ -1,0 +1,26 @@
+{
+  "manifestVersion": 2,
+  "id": "9daf0725-22d4-4b9f-b3c4-9c41f0259623",
+  "alias": "Menu Order",
+  "componentType": "AdaptiveCardExtension",
+  "version": "1.0.4",
+
+  // If true, the component can only be installed on sites where Custom Script is allowed.
+  // Components that allow authors to embed arbitrary script code should set this to true.
+  // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
+  "requiresCustomScript": false,
+  "supportedHosts": ["Dashboard"],
+  "preconfiguredEntries": [{
+    "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
+    "group": { "default": "Dashboard" },
+    "title": { "default": "MenuOrder" },
+    "description": { "default": "This app shows a menu and allows to order a menu" },
+    "officeFabricIconFontName": "SharePointLogo",
+    "cardSize": "Large",
+    "properties": {
+      "title": "MenuOrder",
+      "description": "This is a sample showing a Menu Order process in Viva Connections",
+      "iconProperty": "" // Default to sharepointlogo
+    }
+  }]
+}  

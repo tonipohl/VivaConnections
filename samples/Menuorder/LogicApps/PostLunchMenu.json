@@ -1,0 +1,82 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Response": {
+                "inputs": {
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "saveSelection": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Response"
+            },
+            "saveSelection": {
+                "inputs": {
+                    "body": {
+                        "Comment": "@triggerBody()?['comment']",
+                        "Title": "@triggerBody()?['email']",
+                        "Weekday": "@triggerBody()?['weekday']",
+                        "selectedMenu": "@triggerBody()?['choice']"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['sharepointonline']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/datasets/@{encodeURIComponent(encodeURIComponent('https://<!-- YOUR SPO SITE -->.sharepoint.com/sites/Home'))}/tables/@{encodeURIComponent(encodeURIComponent('49edc3bd-19d4-44c6-b2e1-fb98ed304a8b'))}/items"
+                },
+                "runAfter": {},
+                "type": "ApiConnection"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "choice": {
+                                "type": "string"
+                            },
+                            "comment": {
+                                "type": "string"
+                            },
+                            "email": {
+                                "type": "string"
+                            },
+                            "weekday": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "sharepointonline": {
+                    "connectionId": "<!-- your sharepointonline connection-->",
+                    "connectionName": "sharepointonline",
+                    "id": "<!-- your sharepointonline connection-->"
+                }
+            }
+        }
+    }
+}

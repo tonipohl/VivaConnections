@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "order-food-client-side-solution",
+    "id": "a123458d9-d324-4505-a088-bc52a291c2c8",
+    "version": "1.0.0.1",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "Andras Margittai, Marco Marthe, Toni Pohl",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "<!-- UNKNOWN -->"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Use Menu Order to order your daily lunch"
+      },
+      "longDescription": {
+        "default": "This is a sample showing a Menu Order process for Viva Connections"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "Order Menu feature",
+        "description": "The feature that activates elements of the Order Menu solution.",
+        "id": "9f5540ba-3a91-4236-bff0-fcdb944b30b1",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/menuorder.sppkg"
+  }
+}
