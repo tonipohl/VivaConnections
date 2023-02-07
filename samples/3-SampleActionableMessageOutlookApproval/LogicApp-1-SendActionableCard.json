@@ -1,0 +1,158 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "AddRequestID2StorageTable": {
+                "inputs": {
+                    "body": {
+                        "Reason": "-",
+                        "RequestID": "@{variables('RequestID')}",
+                        "State": "-"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                        }
+                    },
+                    "method": "patch",
+                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('actionablecardstorage'))}/tables/@{encodeURIComponent('requestlist')}/entities(PartitionKey='@{encodeURIComponent('requests')}',RowKey='@{encodeURIComponent(variables('RequestID'))}')"
+                },
+                "runAfter": {
+                    "InitRequestID": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "HTTPSendGraphMail": {
+                "inputs": {
+                    "authentication": {
+                        "audience": "https://graph.microsoft.com",
+                        "type": "ManagedServiceIdentity"
+                    },
+                    "body": "@replace(variables('GraphRequestBody'),'<HTMLBody>',replace(replace(variables('HTMLBody'),'##ACTIONABLECARD##', replace(replace(variables('ActionableCardJSON'),'<postbackurl>',parameters('PostBackUrl')),'<RequestID>',variables('RequestID')) ),'\"','\\\"'))",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "method": "POST",
+                    "uri": "https://graph.microsoft.com/v1.0/users/@{parameters('UserPrincipalname')}/sendMail"
+                },
+                "runAfter": {
+                    "AddRequestID2StorageTable": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Http"
+            },
+            "InitActionableCardJSON": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "ActionableCardJSON",
+                            "type": "string",
+                            "value": "{\n    \"type\": \"AdaptiveCard\",\n    \"body\": [\n        {\n            \"type\": \"Container\",\n            \"style\": \"emphasis\",\n            \"items\": [\n                {\n                    \"type\": \"TextBlock\",\n                    \"horizontalAlignment\": \"Left\",\n                    \"color\": \"Dark\",\n                    \"text\": \"Vacation Approval\",\n                    \"wrap\": true\n                }\n            ],\n            \"padding\": \"Default\",\n            \"spacing\": \"None\"\n        },\n        {\n            \"type\": \"Container\",\n            \"separator\": true,\n            \"style\": \"accent\",\n            \"items\": [\n                {\n                    \"type\": \"TextBlock\",\n                    \"size\": \"Large\",\n                    \"weight\": \"Bolder\",\n                    \"color\": \"Dark\",\n                    \"text\": \"Vacation request by Alex Wilber is pending for your approval\",\n                    \"wrap\": true\n                }\n            ],\n            \"padding\": \"Default\",\n            \"spacing\": \"None\"\n        },\n        {\n            \"type\": \"Container\",\n            \"separator\": true,\n            \"items\": [\n                {\n                    \"type\": \"Container\",\n                    \"items\": [\n                        {\n                            \"type\": \"ColumnSet\",\n                            \"columns\": [\n                                {\n                                    \"type\": \"Column\",\n                                    \"items\": [\n                                        {\n                                            \"type\": \"Image\",\n                                            \"horizontalAlignment\": \"Center\",\n                                            \"style\": \"Person\",\n                                            \"url\": \"https://amdesigner.azurewebsites.net/samples/assets/Colin_Ballinger.png\",\n                                            \"size\": \"Small\",\n                                            \"altText\": \"Alex Wilber Avatar\"\n                                        }\n                                    ],\n                                    \"width\": \"auto\",\n                                    \"padding\": \"None\"\n                                },\n                                {\n                                    \"type\": \"Column\",\n                                    \"items\": [\n                                        {\n                                            \"type\": \"TextBlock\",\n                                            \"weight\": \"Bolder\",\n                                            \"text\": \"Alex Wilber\",\n                                            \"wrap\": true\n                                        },\n                                        {\n                                            \"type\": \"TextBlock\",\n                                            \"spacing\": \"None\",\n                                            \"color\": \"Light\",\n                                            \"text\": \"Design Lead\",\n                                            \"wrap\": true,\n                                            \"size\": \"Small\"\n                                        },\n                                        {\n                                            \"type\": \"TextBlock\",\n                                            \"spacing\": \"None\",\n                                            \"color\": \"Light\",\n                                            \"text\": \"London - Engineering\",\n                                            \"wrap\": true,\n                                            \"size\": \"Small\"\n                                        }\n                                    ],\n                                    \"width\": \"stretch\",\n                                    \"padding\": \"None\"\n                                }\n                            ],\n                            \"padding\": \"None\"\n                        }\n                    ],\n                    \"padding\": \"None\"\n                },\n                {\n                    \"type\": \"FactSet\",\n                    \"id\": \"105b5da3-b129-6ba3-f414-0fa914b10268\",\n                    \"facts\": [\n                        {\n                            \"title\": \"Reason:\",\n                            \"value\": \"I need to visit my aunt in the hospital and so I need 2 days off. \"\n                        },\n                        {\n                            \"title\": \"From:\",\n                            \"value\": \"Feb, 10, 2023\"\n                        },\n                        {\n                            \"title\": \"To:\",\n                            \"value\": \"Feb, 12, 2023\"\n                        },\n                        {\n                            \"title\": \"Type of leave:\",\n                            \"value\": \"Paid Holiday\"\n                        },\n                        {\n                            \"title\": \"Employee's leave balance:\",\n                            \"value\": \"13\"\n                        }\n                    ]\n                }\n            ],\n            \"padding\": {\n                \"top\": \"Default\",\n                \"bottom\": \"None\",\n                \"left\": \"Default\",\n                \"right\": \"Default\"\n            },\n            \"spacing\": \"None\"\n        },\n        {\n            \"type\": \"Container\",\n            \"id\": \"466ee0a4-b5ba-520e-0b5d-53841fffe66e\",\n            \"padding\": \"Default\",\n            \"items\": [\n                {\n                    \"type\": \"ActionSet\",\n                    \"actions\": [\n                        {\n                            \"type\": \"Action.ShowCard\",\n                            \"title\": \"Approve\",\n                            \"card\": {\n                                \"type\": \"AdaptiveCard\",\n                                \"body\": [\n                                    {\n                                        \"type\": \"Input.Text\",\n                                        \"id\": \"ApproveReason\",\n                                        \"placeholder\": \"Add a reason\",\n                                        \"isMultiline\": true\n                                    },\n                                    {\n                                        \"type\": \"ActionSet\",\n                                        \"actions\": [\n                                            {\n                                                \"type\": \"Action.Http\",\n                                                \"title\": \"Submit\",\n                                                \"method\": \"POST\",\n                                                \"url\": \"<postbackurl>\",\n                                                \"body\": \"{'Reason':'{{ApproveReason.value}}','State':'Approved','RequestID':'<RequestID>'}\",\n                                                \"headers\": [\n                                                    {\n                                                        \"name\": \"Content-Type\",\n                                                        \"value\": \"application/json\"\n                                                    },\n                                                    {\n                                                        \"name\": \"Authorization\",\n                                                        \"value\": \"\"\n                                                    }\n                                                ]\n                                            }\n                                        ]\n                                    }\n                                ],\n                                \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n                                \"padding\": \"None\"\n                            },\n                            \"style\": \"positive\",\n                            \"isPrimary\": true\n                        },\n                        {\n                            \"type\": \"Action.ShowCard\",\n                            \"title\": \"Decline\",\n                            \"card\": {\n                                \"type\": \"AdaptiveCard\",\n                                \"body\": [\n                                    {\n                                        \"type\": \"Input.Text\",\n                                        \"id\": \"DeclineReason\",\n                                        \"placeholder\": \"Add a reason\",\n                                        \"isMultiline\": true\n                                    },\n                                    {\n                                        \"type\": \"ActionSet\",\n                                        \"actions\": [\n                                            {\n                                                \"type\": \"Action.Http\",\n                                                \"title\": \"Submit\",\n                                                \"method\": \"POST\",\n                                                \"url\": \"<postbackurl>\",\n                                                \"body\": \"{'Reason':'{{DeclineReason.value}}','State':'Declined','RequestID':'<RequestID>'}\",\n                                                \"headers\": [\n                                                    {\n                                                        \"name\": \"Content-Type\",\n                                                        \"value\": \"application/json\"\n                                                    },\n                                                    {\n                                                        \"name\": \"Authorization\",\n                                                        \"value\": \"\"\n                                                    }\n                                                ]\n                                            }\n                                        ]\n                                    }\n                                ],\n                                \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n                                \"padding\": \"None\"\n                            }\n                        }\n                    ],\n                    \"spacing\": \"None\"\n                }\n            ],\n            \"spacing\": \"None\"\n        }\n    ],\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"version\": \"1.0\",\n    \"padding\": \"None\"\n}\n"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "InitHTMLBody": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "InitGraphRequestBody": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "GraphRequestBody",
+                            "type": "string",
+                            "value": "{\n    \"message\": {\n        \"subject\": \"Approval\",\n        \"body\": {\n            \"contentType\": \"HTML\",\n            \"content\": \"<HTMLBody>\"\n        },\n        \"toRecipients\": [\n            {\n                \"emailAddress\": {\n                    \"address\": \"<your-email>\"\n                }\n            }\n        ]\n    }\n}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "InitActionableCardJSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "InitHTMLBody": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "HTMLBody",
+                            "type": "string",
+                            "value": "<html>\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n    <script type=\"application/adaptivecard+json\">##ACTIONABLECARD##</script>\n</head>\n<body>\n    Visit the <a href=\"https://docs.microsoft.com/outlook/actionable-messages\">Outlook Dev Portal</a> to learn more\n    about Actionable Messages.\n</body>\n</html>"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "InitRequestID": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "RequestID",
+                            "type": "string",
+                            "value": "@{guid()}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "InitGraphRequestBody": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            },
+            "PostBackURL": {
+                "defaultValue": "<your-receiveupdate-logicapp-url>",
+                "type": "String"
+            },
+            "UserPrincipalname": {
+                "defaultValue": "<your-email>",
+                "type": "String"
+            }
+        },
+        "triggers": {
+            "Recurrence": {
+                "evaluatedRecurrence": {
+                    "frequency": "Month",
+                    "interval": 3
+                },
+                "recurrence": {
+                    "frequency": "Month",
+                    "interval": 3
+                },
+                "type": "Recurrence"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "azuretables": {
+                    "connectionId": "/subscriptions<your-subscription-id>/resourceGroups/RG-ActionableCardPlayGround/providers/Microsoft.Web/connections/azuretables",
+                    "connectionName": "azuretables",
+                    "connectionProperties": {
+                        "authentication": {
+                            "type": "ManagedServiceIdentity"
+                        }
+                    },
+                    "id": "/subscriptions<your-subscription-id>/providers/Microsoft.Web/locations/northeurope/managedApis/azuretables"
+                }
+            }
+        }
+    }
+}

@@ -38,6 +38,20 @@ Read more about the requirements and SPFx apps here:
 - [Publish SharePoint Framework applications to the Marketplace](https://docs.microsoft.com/en-us/sharepoint/dev/spfx/publish-to-marketplace-overview)
 - [Microsoft 365 Patterns and Practices](https://aka.ms/m365pnp) - Guidance, tooling, samples and open-source controls for your Microsoft 365 development
 
+## Run it
+
+To run (and to deploy) apps, run these commands:
+
+```powershell
+npm install
+
+gulp serve 
+
+gulp bundle --ship
+
+gulp package-solution --ship
+```
+
 ## Thanks
 
 Thanks to my colleagues Andras Margittai and Marco Marthe for developing this Viva Connections sample app.

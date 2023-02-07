@@ -1,0 +1,37 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.5",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Approval request",
+            "weight": "Bolder",
+            "size": "Medium",
+            "wrap": true,
+            "style": "heading"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Thanks for your decision.",
+            "wrap": true
+        },
+        {
+            "type": "FactSet",
+            "facts": [
+                {
+                    "title": "Request ID:",
+                    "value": "@{triggerBody()?['RequestID']}"
+                },
+                {
+                    "title": "State:",
+                    "value": "@{triggerBody()?['State']}"
+                },
+                {
+                    "title": "Message:",
+                    "value": "@{triggerBody()?['Reason']}"
+                }
+            ]
+        }
+    ]
+}

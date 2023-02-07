@@ -1,8 +1,8 @@
-# VivaConnections
+# VivaConnections samples
 
 Microsoft Viva Connections is a desktop and mobile experience that brings together relevant news, conversations, and resources in one place for your organization. Find out more about Viva Connections at https://docs.microsoft.com/en-us/viva/connections/viva-connections-overview.
 
-This repository is a joint project by [Martina Grom](https://github.com/martinagrom) and [Toni Pohl](https://github.com/tonipohl) and contains links and samples how to use and how to develop Viva Connections in your Microsoft 365 tenant. We will update this repository soon.
+This repository is a joint project by [Martina Grom](https://github.com/martinagrom) and [Toni Pohl](https://github.com/tonipohl) and contains links and samples how to use and how to develop Viva Connections in your Microsoft 365 tenant. The *samples* directory contains some small projects from static Adaptive Cards to simple SPFx apps.
 
 ## Set up and launch Viva Connections
 
@@ -45,8 +45,8 @@ Add new Adaptive Card Extension to solution submit-form.
 
 ## Run an app
 
-Run npm install, and gulp serve --nobrowser to try it out.
-Open your localhost, or a SharePoint Online site to run in context, e.g.:
+Run npm install, and gulp serve --nobrowser to try it out.  
+Open your localhost, or a SharePoint Online site to run in context, e.g.:  
 https://<your-tenantname>.sharepoint.com/sites/Home/_layouts/15/workbench.aspx  
 
 ## Work with action handlers
@@ -78,9 +78,9 @@ You can find a bunch of cool samples here:
 To run (and to deploy) apps, run these commands:
 
 ```powershell
-npm i
+npm install
 
-gulp serve --nobrowser
+gulp serve 
 
 gulp bundle --ship
 

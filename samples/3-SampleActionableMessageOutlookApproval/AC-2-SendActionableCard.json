@@ -1,0 +1,229 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "horizontalAlignment": "Left",
+                    "color": "Dark",
+                    "text": "Vacation Approval",
+                    "wrap": true
+                }
+            ],
+            "padding": "Default",
+            "spacing": "None"
+        },
+        {
+            "type": "Container",
+            "separator": true,
+            "style": "accent",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "size": "Large",
+                    "weight": "Bolder",
+                    "color": "Dark",
+                    "text": "Vacation request by Alex Wilber is pending for your approval",
+                    "wrap": true
+                }
+            ],
+            "padding": "Default",
+            "spacing": "None"
+        },
+        {
+            "type": "Container",
+            "separator": true,
+            "items": [
+                {
+                    "type": "Container",
+                    "items": [
+                        {
+                            "type": "ColumnSet",
+                            "columns": [
+                                {
+                                    "type": "Column",
+                                    "items": [
+                                        {
+                                            "type": "Image",
+                                            "horizontalAlignment": "Center",
+                                            "style": "Person",
+                                            "url": "https://amdesigner.azurewebsites.net/samples/assets/Colin_Ballinger.png",
+                                            "size": "Small",
+                                            "altText": "Alex Wilber Avatar"
+                                        }
+                                    ],
+                                    "width": "auto",
+                                    "padding": "None"
+                                },
+                                {
+                                    "type": "Column",
+                                    "items": [
+                                        {
+                                            "type": "TextBlock",
+                                            "weight": "Bolder",
+                                            "text": "Alex Wilber",
+                                            "wrap": true
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Light",
+                                            "text": "Design Lead",
+                                            "wrap": true,
+                                            "size": "Small"
+                                        },
+                                        {
+                                            "type": "TextBlock",
+                                            "spacing": "None",
+                                            "color": "Light",
+                                            "text": "London - Engineering",
+                                            "wrap": true,
+                                            "size": "Small"
+                                        }
+                                    ],
+                                    "width": "stretch",
+                                    "padding": "None"
+                                }
+                            ],
+                            "padding": "None"
+                        }
+                    ],
+                    "padding": "None"
+                },
+                {
+                    "type": "FactSet",
+                    "id": "105b5da3-b129-6ba3-f414-0fa914b10268",
+                    "facts": [
+                        {
+                            "title": "Reason:",
+                            "value": "I need to visit my aunt in the hospital and so I need 2 days off. "
+                        },
+                        {
+                            "title": "From:",
+                            "value": "Feb, 10, 2023"
+                        },
+                        {
+                            "title": "To:",
+                            "value": "Feb, 12, 2023"
+                        },
+                        {
+                            "title": "Type of leave:",
+                            "value": "Paid Holiday"
+                        },
+                        {
+                            "title": "Employee's leave balance:",
+                            "value": "13"
+                        }
+                    ]
+                }
+            ],
+            "padding": {
+                "top": "Default",
+                "bottom": "None",
+                "left": "Default",
+                "right": "Default"
+            },
+            "spacing": "None"
+        },
+        {
+            "type": "Container",
+            "id": "466ee0a4-b5ba-520e-0b5d-53841fffe66e",
+            "padding": "Default",
+            "items": [
+                {
+                    "type": "ActionSet",
+                    "actions": [
+                        {
+                            "type": "Action.ShowCard",
+                            "title": "Approve",
+                            "card": {
+                                "type": "AdaptiveCard",
+                                "body": [
+                                    {
+                                        "type": "Input.Text",
+                                        "id": "ApproveReason",
+                                        "placeholder": "Add a reason",
+                                        "isMultiline": true
+                                    },
+                                    {
+                                        "type": "ActionSet",
+                                        "actions": [
+                                            {
+                                                "type": "Action.Http",
+                                                "title": "Submit",
+                                                "method": "POST",
+                                                "url": "<postbackurl>",
+                                                "body": "{'Reason':'{{ApproveReason.value}}','State':'Approved','RequestID':'<RequestID>'}",
+                                                "headers": [
+                                                    {
+                                                        "name": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "name": "Authorization",
+                                                        "value": ""
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                                "padding": "None"
+                            },
+                            "style": "positive",
+                            "isPrimary": true
+                        },
+                        {
+                            "type": "Action.ShowCard",
+                            "title": "Decline",
+                            "card": {
+                                "type": "AdaptiveCard",
+                                "body": [
+                                    {
+                                        "type": "Input.Text",
+                                        "id": "DeclineReason",
+                                        "placeholder": "Add a reason",
+                                        "isMultiline": true
+                                    },
+                                    {
+                                        "type": "ActionSet",
+                                        "actions": [
+                                            {
+                                                "type": "Action.Http",
+                                                "title": "Submit",
+                                                "method": "POST",
+                                                "url": "<postbackurl>",
+                                                "body": "{'Reason':'{{DeclineReason.value}}','State':'Declined','RequestID':'<RequestID>'}",
+                                                "headers": [
+                                                    {
+                                                        "name": "Content-Type",
+                                                        "value": "application/json"
+                                                    },
+                                                    {
+                                                        "name": "Authorization",
+                                                        "value": ""
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                                "padding": "None"
+                            }
+                        }
+                    ],
+                    "spacing": "None"
+                }
+            ],
+            "spacing": "None"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "padding": "None"
+}
