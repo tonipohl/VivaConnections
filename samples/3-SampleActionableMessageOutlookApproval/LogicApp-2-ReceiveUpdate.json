@@ -1,0 +1,101 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Get_entity_(V2)": {
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['azuretables']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('actionablecardstorage'))}/tables/@{encodeURIComponent('requestlist')}/entities(PartitionKey='@{encodeURIComponent('requests')}',RowKey='@{encodeURIComponent(triggerBody()?['RequestID'])}')"
+                },
+                "runAfter": {
+                    "InitNewMessagePayload": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "InitNewMessagePayload": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "NewMessagePayLoad",
+                            "type": "string",
+                            "value": "{\n    \"$schema\": \"http://adaptivecards.io/schemas/adaptive-card.json\",\n    \"type\": \"AdaptiveCard\",\n    \"version\": \"1.5\",\n    \"body\": [\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"Approval request\",\n            \"weight\": \"Bolder\",\n            \"size\": \"Medium\",\n            \"wrap\": true,\n            \"style\": \"heading\"\n        },\n        {\n            \"type\": \"TextBlock\",\n            \"text\": \"Thanks for your decision.\",\n            \"wrap\": true\n        },\n        {\n            \"type\": \"FactSet\",\n            \"facts\": [\n                {\n                    \"title\": \"Request ID:\",\n                    \"value\": \"@{triggerBody()?['RequestID']}\"\n                },\n                {\n                    \"title\": \"State:\",\n\t\t\t\t\t\"weight\": \"Bolder\",\n                    \"value\": \"@{triggerBody()?['State']}\"\n                },\n                {\n                    \"title\": \"Message:\",\n                    \"value\": \"@{triggerBody()?['Reason']}\"\n                }\n            ]\n        }\n    ]\n}"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Response": {
+                "inputs": {
+                    "body": "@variables('NewMessagePayLoad')",
+                    "headers": {
+                        "CARD-ACTION-STATUS": "SUCCESS - @{triggerBody()?['Reason']}",
+                        "CARD-UPDATE-IN-BODY": "true"
+                    },
+                    "statusCode": 200
+                },
+                "kind": "Http",
+                "runAfter": {
+                    "Get_entity_(V2)": [
+                        "Succeeded",
+                        "Failed"
+                    ]
+                },
+                "type": "Response"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "manual": {
+                "inputs": {
+                    "schema": {
+                        "properties": {
+                            "Reason": {
+                                "type": "string"
+                            },
+                            "RequestID": {
+                                "type": "string"
+                            },
+                            "State": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "kind": "Http",
+                "type": "Request"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "azuretables": {
+                    "connectionId": "/subscriptions<your-subscription-id>/resourceGroups/RG-ActionableCardPlayGround/providers/Microsoft.Web/connections/azuretables",
+                    "connectionName": "azuretables",
+                    "connectionProperties": {
+                        "authentication": {
+                            "type": "ManagedServiceIdentity"
+                        }
+                    },
+                    "id": "/subscriptions<your-subscription-id>/providers/Microsoft.Web/locations/northeurope/managedApis/azuretables"
+                }
+            }
+        }
+    }
+}
