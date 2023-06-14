@@ -26,7 +26,11 @@ To see how a Viva Connections app should be designed, check out the following re
 - https://docs.microsoft.com/en-us/learn/modules/viva-connections-get-started/4-understand-viva-connections-extensibility-capabilities
 - https://adaptivecards.io
 
-## Create a new app
+## Send AC´s with Flows or Azure Logic Apps
+
+- See the samples 2 and 3.
+
+## Create a new app with SPFx
 
 When all tools are installed, create a new SPFx app with YeoMan generator, and select ACE and one of the three available card types.
 
