@@ -28,16 +28,18 @@ export class CardView extends BaseImageCardView<IEmployeeBadgeAdaptiveCardExtens
   }
 
   public get data(): IImageCardParameters {
-    // Want the user profile picin the card here?
+    // Want the user profile pic in the card here?
     // imageUrl: "/_layouts/15/userphoto.aspx?size=L&username=" + this.state.user.userPrincipalName
-    if (this.state.user.displayName != "") {
+    if (this.state.user.displayName !== "") {
+      console.log("CardView user: " + this.state.user.displayName);
       return {
         title: this.state.user.displayName,
-        primaryText: this.state.user.jobTitle,
-        imageUrl: require("../assets/id_badge.png")
+        primaryText: this.state.user.jobTitle + "\n\r" + this.state.user.officeLocation,
+        imageUrl:require("../assets/id_badge.png")
       };
     }
     else {
+      console.log("CardView no data: " + this.properties.title);
       return {
         title: this.properties.title,
         primaryText: strings.PrimaryText,
@@ -46,8 +48,18 @@ export class CardView extends BaseImageCardView<IEmployeeBadgeAdaptiveCardExtens
     }
   }
 
+  // If needed, link to an external page
+  // public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
+  //   return {
+  //     type: 'ExternalLink',
+  //     parameters: {
+  //       target: 'https://www.bing.com'
+  //     }
+  //   };
+  // }
+
+  // one click for all (button + card)
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
-    // We open the badge here
     return {
       type: 'QuickView',
       parameters: {
@@ -55,4 +67,5 @@ export class CardView extends BaseImageCardView<IEmployeeBadgeAdaptiveCardExtens
       }
     };
   }
+
 }

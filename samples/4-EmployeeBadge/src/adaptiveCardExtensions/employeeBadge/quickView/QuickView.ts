@@ -1,6 +1,7 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView } from '@microsoft/sp-adaptive-card-extension-base';
-import * as strings from 'EmployeeBadgeAdaptiveCardExtensionStrings';
 import { IEmployeeBadgeAdaptiveCardExtensionProps, IEmployeeBadgeAdaptiveCardExtensionState } from '../EmployeeBadgeAdaptiveCardExtension';
+// predefined static strings are not used here
+// import * as strings from 'EmployeeBadgeAdaptiveCardExtensionStrings';
 
 export interface IQuickViewData {
   user: any;

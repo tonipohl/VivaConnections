@@ -2,16 +2,21 @@
   "@microsoft/generator-sharepoint": {
     "plusBeta": false,
     "isCreatingSolution": true,
-    "version": "1.14.0",
+    "nodeVersion": "16.20.0",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.9.1"
+    },
+    "version": "1.17.2",
     "libraryName": "employee-badge",
-    "libraryId": "41b8c179-a776-4b5e-b8ec-71231d885553",
+    "libraryId": "7c9c11ed-7f55-4b07-97a4-66233992b1fc",
     "environment": "spo",
     "packageManager": "npm",
-    "solutionName": "employee-badge",
-    "solutionShortDescription": "employee-badge description",
+    "solutionName": "EmployeeBadge",
+    "solutionShortDescription": "EmployeeBadge description",
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "componentType": "adaptiveCardExtension",
-    "aceTemplateType": "Image"
+    "aceTemplateType": "Basic"
   }
 }

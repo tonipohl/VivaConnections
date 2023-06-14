@@ -1,6 +1,6 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "3ebe7822-0ce2-40c1-bf50-b1cc98f9c51e",
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx/adaptive-card-extension-manifest.schema.json",
+  "id": "123c5612-fccd-5f60-91c0-39e648c683c7",
   "alias": "EmployeeBadgeAdaptiveCardExtension",
   "componentType": "AdaptiveCardExtension",
 
@@ -13,13 +13,12 @@
   // https://support.office.com/en-us/article/Turn-scripting-capabilities-on-or-off-1f2c515f-5d7e-448a-9fd7-835da935584f
   "requiresCustomScript": false,
   "supportedHosts": ["Dashboard"],
-  "supportsThemeVariants": true,
   "preconfiguredEntries": [{
     "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
     "group": { "default": "Dashboard" },
     "title": { "default": "EmployeeBadge" },
-    "description": { "default": "EmployeeBadge app" },
-    "officeFabricIconFontName": "SharePointLogo",
+    "description": { "default": "EmployeeBadge description" },
+    "iconImageUrl": "https://res.cdn.office.net/files/fabric-cdn-prod_20230308.001/assets/brand-icons/product-monoline/svg/vivaconnections_32x1.svg",
     "cardSize": "Large",
     "properties": {
       "title": "EmployeeBadge",

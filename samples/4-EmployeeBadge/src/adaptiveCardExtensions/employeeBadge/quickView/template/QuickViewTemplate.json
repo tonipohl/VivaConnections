@@ -81,7 +81,7 @@
             },
             {
                 "type": "Image",
-                "url": "<use-a-picture-path-url-here>/barcode.png",
+                "url": "${code}",
                 "size": "Medium",
                 "spacing": "Medium"
             }            
@@ -100,5 +100,5 @@
     }
   ],
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-  "version": "1.3"
+  "version": "1.5"
 }

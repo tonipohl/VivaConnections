@@ -1,11 +1,11 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "This app shows the employee badge of the current user.",
+    "PropertyPaneDescription": "Write 1-3 sentences describing the functionality of this component.",
     "TitleFieldLabel": "Card title",
-    "Title": "Employee Badge",
-    "SubTitle": "View my badge",
-    "PrimaryText": "Employee ACE",
-    "Description": "This app shows the employee badge.",
-    "QuickViewButton": "Open"
+    "Title": "Adaptive Card Extension",
+    "SubTitle": "Quick view",
+    "PrimaryText": "SPFx Adaptive Card Extension",
+    "Description": "Create your SPFx Adaptive Card Extension solution!",
+    "QuickViewButton": "Quick view"
   }
 });
