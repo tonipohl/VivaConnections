@@ -26,9 +26,15 @@ To see how a Viva Connections app should be designed, check out the following re
 - https://docs.microsoft.com/en-us/learn/modules/viva-connections-get-started/4-understand-viva-connections-extensibility-capabilities
 - https://adaptivecards.io
 
+## Static AC
+
+- Adapt an existing AC and paste it into a new card with the Viva Connections Dashboard (sample 1).
+
 ## Send AC´s with Flows or Azure Logic Apps
 
 - See the samples 2 and 3.
+- Sample 2 is using a flow template to analyze the sentiment of an email. It returns an AC with the result.
+- Sample 3 shows how to send and to update an AC in Outlook with a menu order process.
 
 ## Create a new app with SPFx
 
@@ -94,4 +100,3 @@ gulp package-solution --ship
 Note: If you have access to demos.microsoft.com, you can also deploy a M365 demo tenant containing Viva sample content.
 
 Happy testing and developing!
-
